@@ -2,6 +2,9 @@
 import { Routes, Route, Link } from "react-router-dom";
 import About from './pages/About';
 import Home from './pages/Home';
+import Header from "./components/ui/Header";
+
+
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
@@ -9,11 +12,7 @@ function App() {
 
   return (
     <>
-        <nav>
-        <Link to="/">Home</Link> |{" "}
-        <Link to="/about">About</Link>
-      </nav>
-
+    <Header />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
