@@ -6,7 +6,9 @@ export default function About() {
     Swal.fire({
     title: 'You Clicked Me',
     icon:'warning',
-    text: 'Bro you clicked me'
+    text: 'Bro you clicked me',
+    timer:1000,
+    timerProgressBar: true
     })
     }
   return (
