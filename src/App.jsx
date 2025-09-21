@@ -1,23 +1,61 @@
 // import { useState, useEffect } from 'react'
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
 import About from './pages/About';
 import Home from './pages/Home';
-import Header from "./components/ui/Header";
+import Header from "./components/UI/Header";
+import Footer from "./components/UI/Footer";
+import Contact from "./pages/Contact";
+import Signin from "./pages/auth/Signin";
+import Signup from "./pages/auth/Signup";
+import Profile from "./pages/auth/Profile"
+import Product from "./pages/Product";
+import Cart from "./pages/Cart";
+import Admin from "./pages/admin/Admin";
+import Index from "./pages/admin/dashboard/Index";
+import Sidebar from "./pages/admin/dashboard/Sidebar";
+import ProtectedRoute from "./components/ProtectedRoute";
+import View from "./pages/admin/CRUD_Table/View";
 
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
-  // const [count, setCount] = useState(0)
+  const location = useLocation();
+  
+  // Check if current path is an admin route (any path starting with /admin, /dashboard, /view, or /sidebar)
+  const isAdminRoute = location.pathname.startsWith('/admin') || 
+                      location.pathname.startsWith('/dashboard') || 
+                      location.pathname.startsWith('/view') ||
+                      location.pathname.startsWith('/sidebar');
 
   return (
     <>
-    <Header />
+      {/* Only show Header if not on admin routes */}
+      {!isAdminRoute && <Header />}
       <Routes>
+    <Route path="/admin" element={<Admin />} />
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/signin" element={<Signin />} />
+        <Route path="/signup" element={<Signup />}/>
+        <Route path="/profile" element={<Profile />}/>
+        <Route path="/product" element={<Product />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/view" element={<View />} />
+
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <Index />
+          </ProtectedRoute>
+        } />
+        <Route path="/sidebar" element={<Sidebar />} />
+
+
+
+
+
       </Routes>
-      
     </>
   )
 }

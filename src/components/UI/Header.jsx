@@ -1,11 +1,91 @@
 import React from "react";
+import Swal from "sweetalert2";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import api from "../../../public/api/api";
 import "/public/template/NiceShop/assets/vendor/bootstrap/css/bootstrap.min.css";
 import "/public/template/NiceShop/assets/vendor/bootstrap-icons/bootstrap-icons.css";
 import "/public/template/NiceShop/assets/css/main.css";
 import '../../assets/css/header.css'
 
 function Header() {
+    const [data, setData] = useState([]);
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      // // Check if token exists
+      // if (!token) {
+      //   Swal.fire({
+      //     toast: true,
+      //     title: "Authentication Required",
+      //     text: "Please login to access this page",
+      //     icon: "warning",
+      //     timer: 3000,
+      //     showConfirmButton: false,
+      //   });
+      //   // setLoader(false);
+      //   return;
+      // }
+
+      const res = await api.get("/me", {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setData(`${res.data.user.name} `);
+      console.log("Api Res:", res.data.user);
+    //   if (res.data.code === 200) {
+    //     Swal.fire({
+    //       // toast: true,
+    //       title: "User",
+    //       text: `Welcome ${res.data.user.name} To Edmax` ,
+    //       icon: "success",
+    //       timer: 2000,
+    //       showConfirmButton: false,
+    //     });
+    //   } else {
+    //     Swal.fire({
+    //       toast: true,
+    //       title: "Error",
+    //       text: "Try Again",
+    //       icon: "error",
+    //       timer: 2000,
+    //     });
+    //   }
+    // } catch (err) {
+    //   console.log("Error:", JSON.stringify(err, null, 2));
+
+    //   // Handle specific error cases
+    //   if (err.response?.status === 401) {
+    //     Swal.fire({
+    //       toast: true,
+    //       title: "Session Expired",
+    //       text: "Please login again",
+    //       icon: "error",
+    //       timer: 3000,
+    //       showConfirmButton: false,
+    //     });
+    //     // Clear invalid token
+    //     localStorage.removeItem("token");
+    //   } else {
+    //     Swal.fire({
+    //       toast: true,
+    //       title: "Error",
+    //       text: "Failed to fetch user data",
+    //       icon: "error",
+    //       timer: 3000,
+    //       showConfirmButton: false,
+    //     });
+    //   }
+    } finally {
+      // setLoader(false);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <header id="header" className="header sticky-top">
       {/* Top Bar */}
@@ -16,14 +96,14 @@ function Header() {
               <div className="top-bar-item">
                 <i className="bi bi-telephone-fill me-2"></i>
                 <span>Need help? Call us: </span>
-                <a href="tel:+1234567890">+1 (234) 567-890</a>
+                <a href="tel:+223 247886217">:+223 247886217</a>
               </div>
             </div>
             <div className="col-lg-4 col-md-12 text-center">
               <div className="announcement-slider swiper init-swiper">
                 <div className="swiper-wrapper">
                   <div className="swiper-slide">
-                    🚚 Free shipping on orders over $50
+                    🚚 Free Accra delivery over GH₵200
                   </div>
                   <div className="swiper-slide">
                     💰 30 days money back guarantee.
@@ -106,8 +186,8 @@ function Header() {
           <div className="d-flex py-3 align-items-center justify-content-between">
             {/* Logo */}
             <Link to={"/"} className="logo d-flex align-items-center">
-              {/* <h1 className="sitename">Edmax</h1> */}
-            <img src="src/assets/images/EDMAX web3-10.png" className="logo2" alt=""/>
+              <h1 className="sitename fs-2">Edmax</h1>
+            {/* <img src="src/assets/images/EDMAX web3-10.png" className="logo2" alt=""/> */}
 
             </Link>
             {/* Search */}
@@ -137,23 +217,23 @@ function Header() {
               </button>
               <div className="dropdown account-dropdown">
                 <button className="header-action-btn" data-bs-toggle="dropdown">
-                  <i className="bi bi-person"></i>
+                  <i className="bi bi-person"></i> {data} 
                 </button>
                 <div className="dropdown-menu">
                   <div className="dropdown-header">
                     <h6>
-                      Welcome to <span className="sitename">FashionStore</span>
+                      Welcome to <span className="sitename">Edmax</span>
                     </h6>
                     <p className="mb-0">Access account &amp; manage orders</p>
                   </div>
                   <div className="dropdown-body">
-                    <a
+                    <Link to={'/profile'}
                       className="dropdown-item d-flex align-items-center"
                       href="account.html"
                     >
                       <i className="bi bi-person-circle me-2"></i>
                       <span>My Profile</span>
-                    </a>
+                    </Link>
                     <a
                       className="dropdown-item d-flex align-items-center"
                       href="account.html"
@@ -177,18 +257,18 @@ function Header() {
                     </a>
                   </div>
                   <div className="dropdown-footer">
-                    <a
-                      href="register.html"
+                    <Link
+                      to={'/signin'}
                       className="btn btn-primary w-100 mb-2"
                     >
                       Sign In
-                    </a>
-                    <a
-                      href="login.html"
+                    </Link>
+                    <Link
+                      to={'/signup'}
                       className="btn btn-outline-primary w-100"
                     >
                       Register
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -220,25 +300,25 @@ function Header() {
                 </Link>
               </li>
               <li>
-                <a href="about.html">About</a>
+                <Link to={"/about"}>About</Link>
               </li>
               <li>
-                <a href="category.html">Category</a>
+                <Link to={'/product'} >Products</Link>
               </li>
               <li>
-                <a href="product-details.html">Product Details</a>
+                <a href="product-details.html">Category</a>
               </li>
               <li>
-                <a href="cart.html">Cart</a>
+                <Link to={'/cart'}>Cart</Link>
               </li>
               <li>
                 <a href="checkout.html">Checkout</a>
               </li>
               <li className="dropdown">
-                <a href="#">
+                {/* <a href="#">
                   <span>Dropdown</span>{" "}
                   <i className="bi bi-chevron-down toggle-dropdown"></i>
-                </a>
+                </a> */}
                 <ul>
                   <li>
                     <a href="#">Dropdown 1</a>
@@ -260,22 +340,20 @@ function Header() {
                   </li>
                 </ul>
               </li>
-              <li className="products-megamenu-1">
+              {/* <li className="products-megamenu-1">
                 <a href="#">
                   <span>Megamenu 1</span>{" "}
                   <i className="bi bi-chevron-down toggle-dropdown"></i>
                 </a>
-                {/* Add megamenu content here if needed */}
-              </li>
-              <li className="products-megamenu-2">
+              </li> */}
+              {/* <li className="products-megamenu-2">
                 <a href="#">
                   <span>Megamenu 2</span>{" "}
                   <i className="bi bi-chevron-down toggle-dropdown"></i>
                 </a>
-                {/* Add megamenu content here if needed */}
-              </li>
+              </li> */}
               <li>
-                <a href="contact.html">Contact</a>
+                <Link to={"/contact"}>Contact</Link>
               </li>
             </ul>
           </nav>
