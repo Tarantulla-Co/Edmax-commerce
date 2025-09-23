@@ -3,6 +3,7 @@ import Swal from "sweetalert2";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../../api/api";
+import { useCart } from "../../contexts/CartContext";
 import "/public/template/NiceShop/assets/vendor/bootstrap/css/bootstrap.min.css";
 import "/public/template/NiceShop/assets/vendor/bootstrap-icons/bootstrap-icons.css";
 import "/public/template/NiceShop/assets/css/main.css";
@@ -10,6 +11,7 @@ import '../../assets/css/header.css'
 
 function Header() {
     const [data, setData] = useState([]);
+    const { cartCount } = useCart();
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -273,17 +275,17 @@ function Header() {
                   </div>
                 </div>
               </div>
-              <a
+              {/* <a
                 href="account.html"
                 className="header-action-btn d-none d-md-block"
               >
                 <i className="bi bi-heart"></i>
                 <span className="badge">0</span>
-              </a>
-              <a href="cart.html" className="header-action-btn">
+              </a> */}
+              <Link to={'/cart'} className="header-action-btn">
                 <i className="bi bi-cart3"></i>
-                <span className="badge">3</span>
-              </a>
+                <span className="badge cart-badge">{cartCount}</span>
+              </Link>
               <i className="mobile-nav-toggle d-xl-none bi bi-list me-0"></i>
             </div>
           </div>

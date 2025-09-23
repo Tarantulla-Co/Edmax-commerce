@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import api from "../api/api";
+import { useCart } from "../contexts/CartContext";
+import Swal from "sweetalert2";
 
 function Product() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const { addToCart } = useCart();
 
   const apiBase = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
   const fileBase = apiBase.replace(/\/api\/?$/, "");
@@ -26,14 +29,46 @@ function Product() {
     load();
   }, []);
 
-  const addCart = async (productId, quantity = 1) => {
+  const addCart = async (productId, quantity = 1, productName = 'Product') => {
     try {
-      await api.post('/cart', {
-        product_id: productId,
-        quantity,
-      });
+      const success = await addToCart(productId, quantity);
+      if (success) {
+        // Show success notification
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'success',
+          title: 'Added to Cart!',
+          text: `${productName} has been added to your cart`,
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true
+        });
+      } else {
+        // Show error notification
+        Swal.fire({
+          toast: true,
+          position: 'top-end',
+          icon: 'error',
+          title: 'Failed to Add',
+          text: 'Could not add item to cart. Please try again.',
+          showConfirmButton: false,
+          timer: 2000,
+          timerProgressBar: true
+        });
+      }
     } catch (err) {
       console.log('Error adding to cart:', err);
+      Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'error',
+        title: 'Error',
+        text: 'Something went wrong. Please try again.',
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true
+      });
     }
   }
 
@@ -94,7 +129,7 @@ function Product() {
                         </div>
                         <button
                           className="cart-btn"
-                          onClick={() => addCart(id, 1)}
+                          onClick={() => addCart(id, 1, name)}
                         >
                           Add to Cart
                         </button>

@@ -1,38 +1,42 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import api from '../api/api';
 import PaystackButton from '../components/UI/PaystackButton';
+import { useCart } from '../contexts/CartContext';
 
 function Cart() {
-  const [items, setItems] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [customerEmail, setCustomerEmail] = useState('')
+  const [customerName, setCustomerName] = useState('')
+  const { cartItems: items, loading, refreshCart } = useCart()
 
   const apiBase = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
   const fileBase = apiBase.replace(/\/api\/?$/, "");
 
-  const fetchCart = async () => {
-    setLoading(true)
-    setError('')
+  useEffect(() => {
+    refreshCart()
+  }, [refreshCart])
+
+  const updateQuantity = async (cartId, delta) => {
     try {
-      const res = await api.get('/cart')
-      const data = Array.isArray(res.data?.data) ? res.data.data : (Array.isArray(res.data) ? res.data : [])
-      setItems(data)
+      const item = items.find((i) => (i.id ?? i.cart_id ?? i._id) === cartId)
+      if (!item) return
+      const productId = item.product_id ?? item?.product?.id ?? item?.product?.product_id
+      const currentQty = Number(item.quantity ?? item.qty ?? 1)
+      const newQty = Math.max(1, currentQty + delta)
+
+      // Because POST /cart appends rows, prevent duplicates by replacing the row:
+      await api.delete(`/cart/${cartId}`)
+      await api.post('/cart', { product_id: productId, quantity: newQty })
+      await refreshCart()
     } catch (e) {
-      console.error('Failed to load cart', e)
-      setError('Failed to load cart')
-    } finally {
-      setLoading(false)
+      console.error('Failed to update quantity', e)
+      await refreshCart()
     }
   }
-
-  useEffect(() => {
-    fetchCart()
-  }, [])
 
   const removeItem = async (cartId) => {
     try {
       await api.delete(`/cart/${cartId}`)
-      setItems((prev) => prev.filter((i) => (i.id ?? i.cart_id) !== cartId))
+      await refreshCart()
     } catch (e) {
       console.error('Failed to remove item', e)
     }
@@ -72,18 +76,15 @@ function Cart() {
                 </div>
               </div>
 
-              {loading && (
-                <div className="py-5 text-center">Loading cart...</div>
-              )}
-              {error && !loading && (
-                <div className="py-5 text-center" style={{ color: 'red' }}>{error}</div>
-              )}
+               {loading && (
+                 <div className="py-5 text-center">Loading cart...</div>
+               )}
 
-              {!loading && !error && items.length === 0 && (
-                <div className="py-5 text-center">Your cart is empty.</div>
-              )}
+               {!loading && items.length === 0 && (
+                 <div className="py-5 text-center">Your cart is empty.</div>
+               )}
 
-              {!loading && !error && items.map((it) => {
+              {!loading && items.map((it) => {
                 const cartId = it.id ?? it.cart_id ?? it._id
                 const product = it.product ?? {}
                 const name = product.name ?? it.name ?? 'Product'
@@ -116,8 +117,14 @@ function Cart() {
                     </div>
                   </div>
                   <div className="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                    <div className="quantity-selector">
+                        <div className="quantity-selector d-flex justify-content-center align-items-center gap-2">
+                          <button className="quantity-btn decrease" onClick={() => updateQuantity(cartId, -1)}>
+                        <i className="bi bi-dash"></i>
+                      </button>
                           <input type="number" className="quantity-input" value={quantity} min="1" readOnly />
+                          <button className="quantity-btn increase" onClick={() => updateQuantity(cartId, 1)}>
+                        <i className="bi bi-plus"></i>
+                      </button>
                     </div>
                   </div>
                   <div className="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
@@ -148,6 +155,28 @@ function Cart() {
             <div className="cart-summary">
               <h4 className="summary-title">Order Summary</h4>
 
+              <div className="mb-3">
+                <label className="form-label">Full Name</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="e.g. Jane Doe"
+                  value={customerName}
+                  onChange={(e) => setCustomerName(e.target.value)}
+                />
+              </div>
+
+              <div className="mb-3">
+                <label className="form-label">Email</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="e.g. jane@example.com"
+                  value={customerEmail}
+                  onChange={(e) => setCustomerEmail(e.target.value)}
+                />
+              </div>
+
               <div className="summary-item">
                 <span className="summary-label">Subtotal</span>
                 <span className="summary-value">GH₵{subtotal.toFixed(2)}</span>
@@ -159,7 +188,13 @@ function Cart() {
               </div>
 
               <div className="checkout-button">
-                <PaystackButton amount={subtotal} currency="GHS" />
+                <PaystackButton
+                  amount={subtotal}
+                  currency="GHS"
+                  email={customerEmail}
+                  fullName={customerName}
+                  disabled={!customerEmail || !customerName || subtotal <= 0}
+                />
               </div>
 
               <div className="continue-shopping">

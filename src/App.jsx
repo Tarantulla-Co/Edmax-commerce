@@ -17,6 +17,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import View from "./pages/admin/CRUD_Table/View";
 import Create from "./pages/admin/CRUD_Table/Create";
 import Edit from "./pages/admin/CRUD_Table/Edit";
+import { CartProvider } from "./contexts/CartContext";
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -30,7 +31,7 @@ function App() {
     location.pathname.startsWith("/sidebar");
 
   return (
-    <>
+    <CartProvider>
       {/* Only show Header if not on admin routes */}
       {!isAdminRoute && <Header />}
       <Routes>
@@ -79,7 +80,7 @@ function App() {
         />
         <Route path="/sidebar" element={<Sidebar />} />
       </Routes>
-    </>
+    </CartProvider>
   );
 }
 
