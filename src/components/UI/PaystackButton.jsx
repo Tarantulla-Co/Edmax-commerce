@@ -2,13 +2,14 @@ import React from "react";
 import api from "../../api/api";
 import Swal from "sweetalert2";
 
-export default function PaystackButton() {
+export default function PaystackButton({ amount = 0, currency = "GHS", email = "customer@email.com" }) {
   const payWithPaystack = () => {
+    const koboAmount = Math.max(0, Math.round(Number(amount || 0) * 100));
     const handler = window.PaystackPop.setup({
       key: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY, // your pk_test_xxx
-      email: "customer@email.com",
-      amount: 5000 * 100, // amount in kobo (Paystack expects the smallest unit)
-      currency: "GHS", // Ghana Cedi
+      email: email,
+      amount: koboAmount,
+      currency: currency, // Ghana Cedi
       ref: "ref_" + Date.now(), // unique reference
       callback: function (response) {
         // ✅ Send reference to Laravel backend for verification
@@ -39,8 +40,8 @@ export default function PaystackButton() {
     <>
     
     <div className="d-flex justify-content-center align-items-center my-4">
-    <button onClick={payWithPaystack} className="btn btn-success">
-      Pay
+    <button onClick={payWithPaystack} className="btn btn-success w-100">
+      Pay GH₵{Number(amount || 0).toFixed(2)}
     </button>
 
 

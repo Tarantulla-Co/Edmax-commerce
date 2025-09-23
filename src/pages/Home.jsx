@@ -148,8 +148,8 @@ export default function Home() {
                 <div className="product-info">
                   <h4>Premium Wireless Headphones</h4>
                   <div className="price">
-                    <span className="sale-price">$299</span>
-                    <span className="original-price">$399</span>
+                    <span className="sale-price"> ₵200</span>
+                    <span className="original-price">₵399</span>
                   </div>
                 </div>
               </div>
@@ -165,7 +165,7 @@ export default function Home() {
                     alt="Product"
                     className="img-fluid"
                   />
-                  <span className="mini-price">$89</span>
+                  <span className="mini-price"> ₵89</span>
                 </div>
                 <div
                   className="product-mini"
@@ -177,7 +177,7 @@ export default function Home() {
                     alt="Product"
                     className="img-fluid"
                   />
-                  <span className="mini-price">$149</span>
+                  <span className="mini-price">₵149</span>
                 </div>
               </div>
             </div>

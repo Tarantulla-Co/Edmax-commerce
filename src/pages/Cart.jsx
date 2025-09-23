@@ -1,7 +1,51 @@
-import React from 'react'
-// import api from '../api/api';
+import React, { useEffect, useMemo, useState } from 'react'
+import api from '../api/api';
+import PaystackButton from '../components/UI/PaystackButton';
 
 function Cart() {
+  const [items, setItems] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  const apiBase = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+  const fileBase = apiBase.replace(/\/api\/?$/, "");
+
+  const fetchCart = async () => {
+    setLoading(true)
+    setError('')
+    try {
+      const res = await api.get('/cart')
+      const data = Array.isArray(res.data?.data) ? res.data.data : (Array.isArray(res.data) ? res.data : [])
+      setItems(data)
+    } catch (e) {
+      console.error('Failed to load cart', e)
+      setError('Failed to load cart')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchCart()
+  }, [])
+
+  const removeItem = async (cartId) => {
+    try {
+      await api.delete(`/cart/${cartId}`)
+      setItems((prev) => prev.filter((i) => (i.id ?? i.cart_id) !== cartId))
+    } catch (e) {
+      console.error('Failed to remove item', e)
+    }
+  }
+
+  const subtotal = useMemo(() => {
+    return items.reduce((sum, it) => {
+      const quantity = Number(it.quantity ?? it.qty ?? 1)
+      const price = Number(it.price ?? it.product?.price ?? it.product_price ?? 0)
+      return sum + price * quantity
+    }, 0)
+  }, [items])
+
   return (
     <>
     <section id="cart" className="cart section">
@@ -28,107 +72,39 @@ function Cart() {
                 </div>
               </div>
 
-              <div className="cart-item">
-                <div className="row align-items-center">
-                  <div className="col-lg-6 col-12 mt-3 mt-lg-0 mb-lg-0 mb-3">
-                    <div className="product-info d-flex align-items-center">
-                      <div className="product-image">
-                        <img src="assets/img/product/product-1.webp" alt="Product" className="img-fluid" loading="lazy"/>
-                      </div>
-                      <div className="product-details">
-                        <h6 className="product-title">Lorem ipsum dolor sit amet</h6>
-                        <div className="product-meta">
-                          <span className="product-color">Color: Black</span>
-                          <span className="product-size">Size: M</span>
-                        </div>
-                        <button className="remove-item" type="button">
-                          <i className="bi bi-trash"></i> Remove
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                    <div className="price-tag">
-                      <span className="current-price">$89.99</span>
-                    </div>
-                  </div>
-                  <div className="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                    <div className="quantity-selector">
-                      <button className="quantity-btn decrease">
-                        <i className="bi bi-dash"></i>
-                      </button>
-                      <input type="number" className="quantity-input" value="1" min="1" max="10"/>
-                      <button className="quantity-btn increase">
-                        <i className="bi bi-plus"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <div className="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                    <div className="item-total">
-                      <span>$89.99</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {loading && (
+                <div className="py-5 text-center">Loading cart...</div>
+              )}
+              {error && !loading && (
+                <div className="py-5 text-center" style={{ color: 'red' }}>{error}</div>
+              )}
 
-              <div className="cart-item">
-                <div className="row align-items-center">
-                  <div className="col-lg-6 col-12 mt-3 mt-lg-0 mb-lg-0 mb-3">
-                    <div className="product-info d-flex align-items-center">
-                      <div className="product-image">
-                        <img src="assets/img/product/product-3.webp" alt="Product" className="img-fluid" loading="lazy"/>
-                      </div>
-                      <div className="product-details">
-                        <h6 className="product-title">Consectetur adipiscing elit</h6>
-                        <div className="product-meta">
-                          <span className="product-color">Color: White</span>
-                          <span className="product-size">Size: L</span>
-                        </div>
-                        <button className="remove-item" type="button">
-                          <i className="bi bi-trash"></i> Remove
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                    <div className="price-tag">
-                      <span className="current-price">$64.99</span>
-                      <span className="original-price">$79.99</span>
-                    </div>
-                  </div>
-                  <div className="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                    <div className="quantity-selector">
-                      <button className="quantity-btn decrease">
-                        <i className="bi bi-dash"></i>
-                      </button>
-                      <input type="number" className="quantity-input" value="2" min="1" max="10"/>
-                      <button className="quantity-btn increase">
-                        <i className="bi bi-plus"></i>
-                      </button>
-                    </div>
-                  </div>
-                  <div className="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
-                    <div className="item-total">
-                      <span>$129.98</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {!loading && !error && items.length === 0 && (
+                <div className="py-5 text-center">Your cart is empty.</div>
+              )}
 
-              <div className="cart-item">
+              {!loading && !error && items.map((it) => {
+                const cartId = it.id ?? it.cart_id ?? it._id
+                const product = it.product ?? {}
+                const name = product.name ?? it.name ?? 'Product'
+                const image = product.image ?? it.image
+                const price = Number(it.price ?? product.price ?? it.product_price ?? 0)
+                const quantity = Number(it.quantity ?? it.qty ?? 1)
+                const imageSrc = image
+                  ? (String(image).startsWith('http') ? image : `${fileBase}/storage/${image}`)
+                  : 'assets/img/product/product-1.webp'
+
+                return (
+                  <div key={cartId} className="cart-item">
                 <div className="row align-items-center">
                   <div className="col-lg-6 col-12 mt-3 mt-lg-0 mb-lg-0 mb-3">
                     <div className="product-info d-flex align-items-center">
                       <div className="product-image">
-                        <img src="assets/img/product/product-5.webp" alt="Product" className="img-fluid" loading="lazy"/>
+                            <img src={imageSrc} alt={name} className="img-fluid" loading="lazy"/>
                       </div>
                       <div className="product-details">
-                        <h6 className="product-title">Sed do eiusmod tempor</h6>
-                        <div className="product-meta">
-                          <span className="product-color">Color: Blue</span>
-                          <span className="product-size">Size: S</span>
-                        </div>
-                        <button className="remove-item" type="button">
+                            <h6 className="product-title">{name}</h6>
+                            <button className="remove-item" type="button" onClick={() => removeItem(cartId)}>
                           <i className="bi bi-trash"></i> Remove
                         </button>
                       </div>
@@ -136,42 +112,32 @@ function Cart() {
                   </div>
                   <div className="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
                     <div className="price-tag">
-                      <span className="current-price">$49.99</span>
+                          <span className="current-price">GH₵{price.toFixed(2)}</span>
                     </div>
                   </div>
                   <div className="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
                     <div className="quantity-selector">
-                      <button className="quantity-btn decrease">
-                        <i className="bi bi-dash"></i>
-                      </button>
-                      <input type="number" className="quantity-input" value="1" min="1" max="10"/>
-                      <button className="quantity-btn increase">
-                        <i className="bi bi-plus"></i>
-                      </button>
+                          <input type="number" className="quantity-input" value={quantity} min="1" readOnly />
                     </div>
                   </div>
                   <div className="col-lg-2 col-12 mt-3 mt-lg-0 text-center">
                     <div className="item-total">
-                      <span>$49.99</span>
+                          <span>GH₵{(price * quantity).toFixed(2)}</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                )
+              })}
 
               <div className="cart-actions">
                 <div className="row">
                   <div className="col-lg-6 mb-3 mb-lg-0">
                     <div className="coupon-form">
-                      {/* <div className="input-group">
-                        <input type="text" className="form-control" placeholder="Coupon code"/>
-                        <button className="btn btn-outline-accent" type="button">Apply Coupon</button>
-                      </div> */}
                     </div>
                   </div>
                   <div className="col-lg-6 text-md-end">
-                    <button className="btn btn-outline-remove">
-                      <i className="bi bi-trash"></i> Clear Cart
-                    </button>
+                    {/* Placeholder for clear cart if needed */}
                   </div>
                 </div>
               </div>
@@ -184,29 +150,16 @@ function Cart() {
 
               <div className="summary-item">
                 <span className="summary-label">Subtotal</span>
-                <span className="summary-value">$269.96</span>
-              </div>
-
-
-              <div className="summary-item">
-                <span className="summary-label">Tax</span>
-                <span className="summary-value">$27.00</span>
-              </div>
-
-              <div className="summary-item discount">
-                <span className="summary-label">Discount</span>
-                <span className="summary-value">-$0.00</span>
+                <span className="summary-value">GH₵{subtotal.toFixed(2)}</span>
               </div>
 
               <div className="summary-total">
                 <span className="summary-label">Total</span>
-                <span className="summary-value">$301.95</span>
+                <span className="summary-value">GH₵{subtotal.toFixed(2)}</span>
               </div>
 
               <div className="checkout-button">
-                <a href="#" className="btn btn-accent w-100">
-                  Proceed to Payment <i className="bi bi-arrow-right"></i>
-                </a>
+                <PaystackButton amount={subtotal} currency="GHS" />
               </div>
 
               <div className="continue-shopping">

@@ -26,15 +26,14 @@ function Product() {
     load();
   }, []);
 
-  const addCart = async(productId, qty = 1)=>{
-    try{
-      
-      const res = await api.post('/cart',{
+  const addCart = async (productId, quantity = 1) => {
+    try {
+      await api.post('/cart', {
         product_id: productId,
-      quantity: qty,
+        quantity,
       });
-    }catch(err){
-      console.log('Error:', err);
+    } catch (err) {
+      console.log('Error adding to cart:', err);
     }
   }
 
@@ -93,7 +92,12 @@ function Product() {
                             <i className="bi bi-zoom-in"></i>
                           </button>
                         </div>
-                        <button className="cart-btn" onSubmit={addCart()}>Add to Cart</button>
+                        <button
+                          className="cart-btn"
+                          onClick={() => addCart(id, 1)}
+                        >
+                          Add to Cart
+                        </button>
                       </div>
                       <div className="product-info">
                         <div className="product-category">New</div>
