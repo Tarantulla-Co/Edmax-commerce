@@ -2,7 +2,7 @@ import React from "react";
 import Swal from "sweetalert2";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import api from "../../../public/api/api";
+import api from "../../api/api";
 import "/public/template/NiceShop/assets/vendor/bootstrap/css/bootstrap.min.css";
 import "/public/template/NiceShop/assets/vendor/bootstrap-icons/bootstrap-icons.css";
 import "/public/template/NiceShop/assets/css/main.css";
@@ -114,7 +114,7 @@ function Header() {
                 </div>
               </div>
             </div>
-            <div className="col-lg-4 d-none d-lg-block">
+            {/* <div className="col-lg-4 d-none d-lg-block">
               <div className="d-flex justify-content-end">
                 <div className="top-bar-item dropdown me-3">
                   <a
@@ -175,7 +175,7 @@ function Header() {
                   </ul>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -217,7 +217,8 @@ function Header() {
               </button>
               <div className="dropdown account-dropdown">
                 <button className="header-action-btn" data-bs-toggle="dropdown">
-                  <i className="bi bi-person"></i> {data} 
+                  <i className="bi bi-person"></i> 
+                  {data} 
                 </button>
                 <div className="dropdown-menu">
                   <div className="dropdown-header">
@@ -305,15 +306,15 @@ function Header() {
               <li>
                 <Link to={'/product'} >Products</Link>
               </li>
-              <li>
+              {/* <li>
                 <a href="product-details.html">Category</a>
-              </li>
+              </li> */}
               <li>
                 <Link to={'/cart'}>Cart</Link>
               </li>
-              <li>
+              {/* <li>
                 <a href="checkout.html">Checkout</a>
-              </li>
+              </li> */}
               <li className="dropdown">
                 {/* <a href="#">
                   <span>Dropdown</span>{" "}

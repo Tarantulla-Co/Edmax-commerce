@@ -1,7 +1,7 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import api from "/public/api/api.js";
+import api from "../../api/api";
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
@@ -52,11 +52,10 @@ function Signin() {
     }
   } catch (err) {
     console.log("Error:", JSON.stringify(err, null, 2));
-    Swal.fire({
-      title: "Error",
-      text: "Something went wrong",
-      icon: "error",
-    });
+    const message = err?.response?.data?.message
+    const errors = err?.response?.data?.errors
+    const errorText = errors ? Object.values(errors).flat().join(' ') : (message || 'Invalid credentials')
+    Swal.fire({ title: "Error", text: errorText, icon: "error" });
   }
 };
 
@@ -110,7 +109,7 @@ function Signin() {
                     <span className="input-icon">
                       <i className="bi bi-lock"></i>
                     </span>
-                    <input type="password" name="password" value={form.password} onChange={handleChange} className="form-control" placeholder="Password" required autocomplete="current-password"/>
+                    <input type="password" name="password" value={form.password} onChange={handleChange} className="form-control" placeholder="Password" required autoComplete="current-password"/>
                     <span className="password-toggle">
                       <i className="bi bi-eye"></i>
                     </span>

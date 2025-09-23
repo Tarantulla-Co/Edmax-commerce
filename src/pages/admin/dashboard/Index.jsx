@@ -1,6 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import AdminLayout from '../../../components/AdminLayout'
+import Swal from 'sweetalert2'
 function Index() {
+  useEffect(()=>{
+    setTimeout(()=>{
+
+      Swal.fire('Info', 'Make sure you logout before leaving this page', 'info');
+
+    },1000)
+
+  },[]);
   // Sample dashboard data
   const stats = [
     { title: 'Total Orders', value: '1,234', icon: 'bi-cart-check', color: 'primary' },
@@ -71,32 +80,7 @@ function Index() {
               </div>
             </div> */}
 
-            {/* Quick Actions */}
-            <div className="dashboard-card">
-              <div className="card-header">
-                <h3>Quick Actions</h3>
-              </div>
-              <div className="card-body">
-                <div className="quick-actions">
-                  <button className="action-btn">
-                    <i className="bi bi-plus-circle"></i>
-                    <span>Add Product</span>
-                  </button>
-                  <button className="action-btn">
-                    <i className="bi bi-cart-plus"></i>
-                    <span>New Order</span>
-                  </button>
-                  <button className="action-btn">
-                    <i className="bi bi-person-plus"></i>
-                    <span>Add Customer</span>
-                  </button>
-                  <button className="action-btn">
-                    <i className="bi bi-graph-up"></i>
-                    <span>View Reports</span>
-                  </button>
-                </div>
-              </div>
-            </div>
+           
           </div>
     </AdminLayout>
   )

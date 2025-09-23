@@ -34,24 +34,24 @@ function Profile() {
           });
           setData(`${res.data.user.name} `);
           console.log("Api Res:", res.data.user);
-          if (res.data.code === 200) {
-            Swal.fire({
-              toast: true,
-              title: "User",
-              text: `Welcome ${res.data.user.name}`,
-              icon: "success",
-              timer: 2000,
-              showConfirmButton: false
-            });
-          } else {
-            Swal.fire({
-              toast: true,
-              title: "Error",
-              text: "Try Again",
-              icon: "error",
-              timer: 2000,
-            });
-          }
+          // if (res.data.code === 200) {
+          //   Swal.fire({
+          //     toast: true,
+          //     title: "User",
+          //     text: `Welcome ${res.data.user.name}`,
+          //     icon: "success",
+          //     timer: 2000,
+          //     showConfirmButton: false
+          //   });
+          // } else {
+          //   Swal.fire({
+          //     toast: true,
+          //     title: "Error",
+          //     text: "Try Again",
+          //     icon: "error",
+          //     timer: 2000,
+          //   });
+          // }
         } catch (err) {
           console.log('Error:',JSON.stringify(err, null, 2));
           
