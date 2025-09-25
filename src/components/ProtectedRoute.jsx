@@ -20,7 +20,7 @@ function ProtectedRoute({ children }) {
       // No token found, redirect to admin login
       Swal.fire({
         title: 'Access Denied',
-        text: 'Please login to access the dashboard',
+        text: 'Please login to access this Page',
         icon: 'warning',
         timer: 2000,
         showConfirmButton: false

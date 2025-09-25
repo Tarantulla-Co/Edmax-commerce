@@ -2,7 +2,8 @@ import React from "react";
 import Swal from "sweetalert2";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import api from "../../../public/api/api";
+import api from "../../api/api";
+import { useCart } from "../../contexts/CartContext";
 import "/public/template/NiceShop/assets/vendor/bootstrap/css/bootstrap.min.css";
 import "/public/template/NiceShop/assets/vendor/bootstrap-icons/bootstrap-icons.css";
 import "/public/template/NiceShop/assets/css/main.css";
@@ -10,6 +11,7 @@ import '../../assets/css/header.css'
 
 function Header() {
     const [data, setData] = useState([]);
+    const { cartCount } = useCart();
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("token");
@@ -114,7 +116,7 @@ function Header() {
                 </div>
               </div>
             </div>
-            <div className="col-lg-4 d-none d-lg-block">
+            {/* <div className="col-lg-4 d-none d-lg-block">
               <div className="d-flex justify-content-end">
                 <div className="top-bar-item dropdown me-3">
                   <a
@@ -175,7 +177,7 @@ function Header() {
                   </ul>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
@@ -186,8 +188,8 @@ function Header() {
           <div className="d-flex py-3 align-items-center justify-content-between">
             {/* Logo */}
             <Link to={"/"} className="logo d-flex align-items-center">
-              <h1 className="sitename fs-2">Edmax</h1>
-            {/* <img src="src/assets/images/EDMAX web3-10.png" className="logo2" alt=""/> */}
+            <img src="src/assets/EDMAX.png" className="logo2" alt=""/>
+              <h1 className="sitename fs-2">edmax</h1>
 
             </Link>
             {/* Search */}
@@ -217,7 +219,8 @@ function Header() {
               </button>
               <div className="dropdown account-dropdown">
                 <button className="header-action-btn" data-bs-toggle="dropdown">
-                  <i className="bi bi-person"></i> {data} 
+                  <i className="bi bi-person"></i> 
+                  {data} 
                 </button>
                 <div className="dropdown-menu">
                   <div className="dropdown-header">
@@ -239,22 +242,22 @@ function Header() {
                       href="account.html"
                     >
                       <i className="bi bi-bag-check me-2"></i>
-                      <span>My Orders</span>
+                      <span> My Orders</span>
                     </a>
-                    <a
+                    <Link
                       className="dropdown-item d-flex align-items-center"
-                      href="account.html"
+                      to={'/cart'}
                     >
-                      <i className="bi bi-heart me-2"></i>
-                      <span>My Wishlist</span>
-                    </a>
-                    <a
+                      <i className="bi bi-cart3"></i>
+                      <span> My Cart</span>
+                    </Link>
+                    {/* <a
                       className="dropdown-item d-flex align-items-center"
                       href="account.html"
                     >
                       <i className="bi bi-gear me-2"></i>
                       <span>Settings</span>
-                    </a>
+                    </a> */}
                   </div>
                   <div className="dropdown-footer">
                     <Link
@@ -272,17 +275,17 @@ function Header() {
                   </div>
                 </div>
               </div>
-              <a
+              {/* <a
                 href="account.html"
                 className="header-action-btn d-none d-md-block"
               >
                 <i className="bi bi-heart"></i>
                 <span className="badge">0</span>
-              </a>
-              <a href="cart.html" className="header-action-btn">
+              </a> */}
+              <Link to={'/cart'} className="header-action-btn">
                 <i className="bi bi-cart3"></i>
-                <span className="badge">3</span>
-              </a>
+                <span className="badge cart-badge">{cartCount}</span>
+              </Link>
               <i className="mobile-nav-toggle d-xl-none bi bi-list me-0"></i>
             </div>
           </div>
@@ -305,15 +308,15 @@ function Header() {
               <li>
                 <Link to={'/product'} >Products</Link>
               </li>
-              <li>
+              {/* <li>
                 <a href="product-details.html">Category</a>
-              </li>
+              </li> */}
               <li>
                 <Link to={'/cart'}>Cart</Link>
               </li>
-              <li>
+              {/* <li>
                 <a href="checkout.html">Checkout</a>
-              </li>
+              </li> */}
               <li className="dropdown">
                 {/* <a href="#">
                   <span>Dropdown</span>{" "}

@@ -37,12 +37,14 @@ export default function About() {
         <span className="section-badge"><i className="bi bi-info-circle"></i> About Us</span>
         <div className="row">
           <div className="col-lg-6">
-            <h2 className="about-title">Nemo enim ipsam voluptatem quia voluptas aspernatur</h2>
-            <p className="about-description">Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae.</p>
+            <h2 className="about-title">Welcome To Edmax Tools and Power Technology</h2>
+            <p className="about-description">Your one-stop shop for all power tools and equipment needs.
+            We specialize in providing high-quality tools and equipment for both professionals and DIY enthusiasts.
+            </p>
           </div>
           <div className="col-lg-6">
-            <p className="about-text">Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat.</p>
-            <p className="about-text">Amet eos ut. Officiis soluta ab id dolor non sint. Corporis omnis consequatur quisquam ex consequuntur quo omnis. Quo eligendi cum. Amet mollitia qui quidem dolores praesentium quasi ut et.</p>
+            <p className="about-text">At Edmax, we are committed to providing top-notch tools and equipment to our customers.</p>
+            <p className="about-text">We believe in the power of precision and strive to offer products that meet the highest standards of quality and performance.</p>
           </div>
         </div>
 
@@ -52,8 +54,8 @@ export default function About() {
               <div className="icon-box">
                 <i className="bi bi-bullseye"></i>
               </div>
-              <h3><a href="#" className="stretched-link">At vero eos</a></h3>
-              <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat.</p>
+              <h3><a href="#" className="stretched-link">Quality</a></h3>
+              <p>Go-to hub for quality & affordable water pumps, power tools, generators, and other hardware ranges.</p>
             </div>
           </div>
 
@@ -62,8 +64,8 @@ export default function About() {
               <div className="icon-box">
                 <i className="bi bi-person-check"></i>
               </div>
-              <h3><a href="#" className="stretched-link">Sed ut perspiciatis</a></h3>
-              <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque.</p>
+              <h3><a href="#" className="stretched-link">Satisfaction</a></h3>
+              <p>Customer satisfaction is our top priority, and we strive to exceed expectations with every purchase.</p>
             </div>
           </div>
 
@@ -72,8 +74,8 @@ export default function About() {
               <div className="icon-box">
                 <i className="bi bi-clipboard-data"></i>
               </div>
-              <h3><a href="#" className="stretched-link">Nemo enim ipsam</a></h3>
-              <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam.</p>
+              <h3><a href="#" className="stretched-link">Quality Assurance</a></h3>
+              <p>Our products undergo rigorous testing to ensure they meet the highest standards of quality and performance.</p>
             </div>
           </div>
         </div>
@@ -82,7 +84,7 @@ export default function About() {
           <div className="col-lg-12" data-aos="zoom-in" data-aos-delay="200">
             <div className="video-box">
               <img src="src/assets/images/products/Hero-image.jpg" className="img-fluid" alt="Video Thumbnail"/>
-              <a href="https://www.youtube.com/watch?v=Y7f98aduVJ8" className="glightbox pulsating-play-btn"></a>
+              <a href="https://web.facebook.com/share/v/16iEPgoLxw/" className="glightbox pulsating-play-btn"></a>
             </div>
           </div>
         </div>
@@ -259,7 +261,6 @@ export default function About() {
 
   </main>
     
-      <button classNameName="btn btn-success" onClick={msg}>Click Me</button>
     
     <Footer />
     

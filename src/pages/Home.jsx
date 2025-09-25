@@ -1,88 +1,31 @@
-import React from "react";
-// import { useEffect,useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import Footer from "../components/UI/Footer";
-// import api from "../../public/api/api";
+import api from "../api/api";
+import { useCart } from "../contexts/CartContext";
 export default function Home() {
-  // const [data, setData] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const { cartCount } = useCart();
 
-  // const fetchData = async () => {
-  //   try {
-  //     const token = localStorage.getItem("token");
+  const fetchFeaturedProducts = async () => {
+    setLoading(true);
+    try {
+      const res = await api.get("/product");
+      const products = Array.isArray(res.data) ? res.data : [];
+      // Take only first 4 products as ads
+      setFeaturedProducts(products.slice(0, 4));
+    } catch (err) {
+      console.error("Failed to load featured products", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  //     // Check if token exists
-  //     if (!token) {
-  //       Swal.fire({
-  //         toast: true,
-  //         title: "Authentication Required",
-  //         text: "Please login to access this page",
-  //         icon: "warning",
-  //         timer: 3000,
-  //         showConfirmButton: false,
-  //       });
-  //       // setLoader(false);
-  //       return;
-  //     }
-
-  //     const res = await api.get("/me", {
-  //       headers: {
-  //         Accept: "application/json",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     setData(`${res.data.user.name} `);
-  //     console.log("Api Res:", res.data.user);
-  //     if (res.data.code === 200) {
-  //       Swal.fire({
-  //         // toast: true,
-  //         title: "User",
-  //         text: `Welcome ${res.data.user.name} To Edmax` ,
-  //         icon: "success",
-  //         timer: 2000,
-  //         showConfirmButton: false,
-  //       });
-  //     } else {
-  //       Swal.fire({
-  //         toast: true,
-  //         title: "Error",
-  //         text: "Try Again",
-  //         icon: "error",
-  //         timer: 2000,
-  //       });
-  //     }
-  //   } catch (err) {
-  //     console.log("Error:", JSON.stringify(err, null, 2));
-
-  //     // Handle specific error cases
-  //     if (err.response?.status === 401) {
-  //       Swal.fire({
-  //         toast: true,
-  //         title: "Session Expired",
-  //         text: "Please login again",
-  //         icon: "error",
-  //         timer: 3000,
-  //         showConfirmButton: false,
-  //       });
-  //       // Clear invalid token
-  //       localStorage.removeItem("token");
-  //     } else {
-  //       Swal.fire({
-  //         toast: true,
-  //         title: "Error",
-  //         text: "Failed to fetch user data",
-  //         icon: "error",
-  //         timer: 3000,
-  //         showConfirmButton: false,
-  //       });
-  //     }
-  //   } finally {
-  //     // setLoader(false);
-  //   }
-  // };
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
+  useEffect(() => {
+    fetchFeaturedProducts();
+  }, []);
   return (
     <>
       <section id="hero" className="hero section">
@@ -138,48 +81,84 @@ export default function Home() {
               data-aos="fade-left"
               data-aos-delay="200"
             >
-              <div className="product-card featured">
-                <img
-                  src="src/assets/images/products/image-1.jpeg"
-                  alt="Featured Product"
-                  className="img-fluid"
-                />
-                <div className="product-badge">Best Seller</div>
-                <div className="product-info">
-                  <h4>Premium Wireless Headphones</h4>
-                  <div className="price">
-                    <span className="sale-price">$299</span>
-                    <span className="original-price">$399</span>
+              {loading ? (
+                <div className="text-center py-5">
+                  <div className="spinner-border text-primary" role="status">
+                    <span className="visually-hidden">Loading...</span>
                   </div>
                 </div>
-              </div>
+              ) : featuredProducts.length > 0 ? (
+                <>
+                  <div className="product-card featured">
+                    <img
+                      src={
+                        featuredProducts[0]?.image
+                          ? (String(featuredProducts[0].image).startsWith("http")
+                              ? featuredProducts[0].image
+                              : `${import.meta.env.VITE_API_URL?.replace(/\/api\/?$/, "") || "http://localhost:8000"}/storage/${featuredProducts[0].image}`)
+                          : "src/assets/images/products/image-1.jpeg"
+                      }
+                      alt={featuredProducts[0]?.name || "Featured Product"}
+                      className="img-fluid"
+                    />
+                    <div className="product-badge">Featured</div>
+                    <div className="product-info">
+                      <h4>{featuredProducts[0]?.name || "Premium Product"}</h4>
+                      <div className="price">
+                        <span className="sale-price">
+                          GH₵{featuredProducts[0]?.price?.toFixed(2) || "0.00"}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
 
-              <div className="product-grid">
-                <div
-                  className="product-mini"
-                  data-aos="zoom-in"
-                  data-aos-delay="400"
-                >
+                  <div className="product-grid">
+                    {featuredProducts.slice(1, 3).map((product, index) => {
+                      const apiBase = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+                      const fileBase = apiBase.replace(/\/api\/?$/, "");
+                      const imageSrc = product.image
+                        ? (String(product.image).startsWith("http")
+                            ? product.image
+                            : `${fileBase}/storage/${product.image}`)
+                        : "src/assets/images/products/image-2.jpeg";
+                      
+                      return (
+                        <div
+                          key={product.id || product._id || index}
+                          className="product-mini"
+                          data-aos="zoom-in"
+                          data-aos-delay={400 + (index * 100)}
+                        >
+                          <img
+                            src={imageSrc}
+                            alt={product.name || "Product"}
+                            className="img-fluid"
+                          />
+                          <span className="mini-price">
+                            GH₵{product.price?.toFixed(2) || "0.00"}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </>
+              ) : (
+                <div className="product-card featured">
                   <img
-                    src="src/assets/images/products/image-2.jpeg"
-                    alt="Product"
+                    src="src/assets/images/products/image-1.jpeg"
+                    alt="Featured Product"
                     className="img-fluid"
                   />
-                  <span className="mini-price">$89</span>
+                  <div className="product-badge">Best Seller</div>
+                  <div className="product-info">
+                    <h4>Premium Wireless Headphones</h4>
+                    <div className="price">
+                      <span className="sale-price">GH₵200</span>
+                      <span className="original-price">GH₵399</span>
+                    </div>
+                  </div>
                 </div>
-                <div
-                  className="product-mini"
-                  data-aos="zoom-in"
-                  data-aos-delay="500"
-                >
-                  <img
-                    src="src/assets/images/products/image-5.jpeg"
-                    alt="Product"
-                    className="img-fluid"
-                  />
-                  <span className="mini-price">$149</span>
-                </div>
-              </div>
+              )}
             </div>
 
             <div className="floating-elements">
@@ -189,7 +168,7 @@ export default function Home() {
                 data-aos-delay="600"
               >
                 <i className="bi bi-cart3"></i>
-                <span className="notification-dot">3</span>
+                {cartCount > 0 && <span className="notification-dot">{cartCount}</span>}
               </div>
               <div
                 className="floating-icon wishlist"
@@ -206,6 +185,72 @@ export default function Home() {
                 <i className="bi bi-search"></i>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Products Section */}
+      <section id="featured-products" className="featured-products section">
+        <div className="container">
+          <div className="section-title text-center" data-aos="fade-up">
+            <h2>Featured Products</h2>
+            <p>Discover our handpicked selection of premium products</p>
+          </div>
+          
+          <div className="row g-4">
+            {loading ? (
+              <div className="col-12 text-center py-5">
+                <div className="spinner-border text-primary" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
+            ) : featuredProducts.length > 0 ? (
+              featuredProducts.map((product, index) => {
+                const apiBase = import.meta.env.VITE_API_URL || "http://localhost:8000/api";
+                const fileBase = apiBase.replace(/\/api\/?$/, "");
+                const imageSrc = product.image
+                  ? (String(product.image).startsWith("http")
+                      ? product.image
+                      : `${fileBase}/storage/${product.image}`)
+                  : "src/assets/images/products/image-1.jpeg";
+                
+                return (
+                  <div key={product.id || product._id || index} className="col-lg-3 col-md-6">
+                    <div 
+                      className="product-item"
+                      data-aos="fade-up"
+                      data-aos-delay={100 * index}
+                    >
+                      <div className="product-image">
+                        <img
+                          src={imageSrc}
+                          alt={product.name || "Product"}
+                          className="img-fluid"
+                          loading="lazy"
+                        />
+                        <div className="product-badge">Featured</div>
+                      </div>
+                      <div className="product-info">
+                        <h4 className="product-name">{product.name || "Premium Product"}</h4>
+                        <div className="product-price">
+                          <span className="current-price">GH₵{product.price?.toFixed(2) || "0.00"}</span>
+                        </div>
+                        <Link to="/product" className="btn btn-outline-primary btn-sm mt-2">
+                          View All Products
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <div className="col-12 text-center py-5">
+                <p>No featured products available at the moment.</p>
+                <Link to="/product" className="btn btn-primary">
+                  Browse All Products
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -228,15 +273,17 @@ export default function Home() {
                 </div>
                 <div className="category-content">
                   <span className="category-tag">Trending Now</span>
-                  <h2>New Summer Collection</h2>
+                  <h2>New Equipment and Tools Collection</h2>
                   <p>
-                    Discover our latest arrivals designed for the modern
-                    lifestyle. Elegant, comfortable, and sustainable fashion for
-                    every occasion.
+                    Upgrade your toolkit with our latest arrivals.
                   </p>
-                  <a href="#" className="btn-shop">
+                  <p>
+                    Shop now and take advantage of exclusive offers on top
+                    brands.
+                  </p>
+                  <Link to={'/product'} className="btn-shop">
                     Explore Collection <i className="bi bi-arrow-right"></i>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -257,11 +304,11 @@ export default function Home() {
                       />
                     </div>
                     <div className="category-content">
-                      <h4>Men's Wear</h4>
-                      <p>242 products</p>
-                      <a href="#" className="card-link">
+                      <h4>Tool 1</h4>
+                      {/* <p>242 products</p> */}
+                      <Link to={'/product'}className="card-link">
                         Shop Now <i className="bi bi-arrow-right"></i>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -280,11 +327,11 @@ export default function Home() {
                       />
                     </div>
                     <div className="category-content">
-                      <h4>Kid's Fashion</h4>
-                      <p>185 products</p>
-                      <a href="#" className="card-link">
+                      <h4>Tool 2</h4>
+                      {/* <p>185 products</p> */}
+                      <Link to={'/product'} className="card-link">
                         Shop Now <i className="bi bi-arrow-right"></i>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -303,11 +350,11 @@ export default function Home() {
                       />
                     </div>
                     <div className="category-content">
-                      <h4>Beauty Products</h4>
-                      <p>127 products</p>
-                      <a href="#" className="card-link">
+                      <h4>Tool 3</h4>
+                      {/* <p>127 products</p> */}
+                      <Link to={'/product'}className="card-link">
                         Shop Now <i className="bi bi-arrow-right"></i>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -326,11 +373,11 @@ export default function Home() {
                       />
                     </div>
                     <div className="category-content">
-                      <h4>Accessories</h4>
-                      <p>308 products</p>
-                      <a href="#" className="card-link">
+                      <h4>Tool 4</h4>
+                      {/* <p>308 products</p> */}
+                      <Link to={'/product'} className="card-link">
                         Shop Now <i className="bi bi-arrow-right"></i>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

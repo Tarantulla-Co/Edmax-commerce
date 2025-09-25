@@ -83,7 +83,7 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
         {/* Sidebar Header */}
         <div className="sidebar-header">
           <div className="sidebar-brand">
-            <i className="bi bi-shop"></i>
+            {/* <i className="bi bi-shop"></i> */}
             {(!isCollapsed || isMobile) && <span>Edmax Admin</span>}
           </div>
           <button 
@@ -138,7 +138,7 @@ function Sidebar({ isCollapsed, setIsCollapsed }) {
           left: 0;
           height: 100vh;
           width: 280px;
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(135deg, #0c0707ff 0%, #26212bff 100%);
           color: white;
           transition: all 0.3s ease;
           z-index: 1000;

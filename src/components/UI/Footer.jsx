@@ -2,6 +2,7 @@ import React from 'react'
 import "/public/template/NiceShop/assets/vendor/bootstrap/css/bootstrap.min.css";
 import "/public/template/NiceShop/assets/vendor/bootstrap-icons/bootstrap-icons.css";
 import "/public/template/NiceShop/assets/css/main.css";
+import { Link } from 'react-router-dom';
 function Footer() {
   const date = new Date().getFullYear();
   return (
@@ -15,23 +16,25 @@ function Footer() {
               <a href="index.html" className="logo">
                 <span className="sitename">Edmax</span>
               </a>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in nibh vehicula, facilisis magna ut, consectetur lorem. Proin eget tortor risus.</p>
+              <p>We are dedicated to providing top-notch tools and equipment to our customers.
+                Our commitment to quality and customer satisfaction sets us apart in the industry.
+
+              </p>
 
               <div className="social-links mt-4">
                 <h5>Connect With Us</h5>
                 <div className="social-icons">
-                  <a href="#" aria-label="Facebook"><i className="bi bi-facebook"></i></a>
-                  <a href="#" aria-label="Instagram"><i className="bi bi-instagram"></i></a>
-                  <a href="#" aria-label="Twitter"><i className="bi bi-twitter-x"></i></a>
-                  <a href="#" aria-label="TikTok"><i className="bi bi-tiktok"></i></a>
-                  <a href="#" aria-label="Pinterest"><i className="bi bi-pinterest"></i></a>
-                  <a href="#" aria-label="YouTube"><i className="bi bi-youtube"></i></a>
+                  <a href="https://web.facebook.com/MusicJago" aria-label="Facebook"><i className="bi bi-facebook"></i></a>
+                  <a href="https://www.instagram.com/edmaxtools?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw%3D%3D" aria-label="Instagram"><i className="bi bi-instagram"></i></a>
+                  <a href="https://x.com/Edi_OneVentures?t=B4X7_4tJcS0TIuPc2qpD5Q&s=09" aria-label="Twitter"><i className="bi bi-twitter-x"></i></a>
+                  <a href="https://www.tiktok.com/@edimax_0?_d=secCgYIASAHKAESPgo8eLpSb5VfE5AWlUKO5INTPdDhGYg19daYdHz2AanbjiB89BZRFjejFVS6eZasCbqD9sBnxo1s975noA8gGgA%3D&_svg=1&checksum=dc369bb74e0d917cce056097cb896be6724aa15476ba334def99b4d402712f02&lang=en&sec_uid=MS4wLjABAAAATC6f_s8cwcJRwAQ17CH9wmFbFfAXtIE0QB6MZ1XjsiqwRM7uWx-Ut6d1ABrkCY3Q&sec_user_id=MS4wLjABAAAAtswUvMjMDaab8zATzqPbxKydJfW4F1b-D2usFRrKjZwmug1oembDCSKCO6R1Rjj5&share_app_id=1340&share_author_id=7029059326811882502&share_link_id=97069974-b420-490d-8b5a-4c126bfe22bd&share_scene=1&sharer_language=en&timestamp=1755593741&u_code=e573m33m8dk909&ugbiz_name=Account&user_id=7172916010927834118&utm_campaign=client_share&utm_source=copy&_r=1" aria-label="TikTok"><i className="bi bi-tiktok"></i></a>
+
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="col-lg-2 col-md-6 col-sm-6">
+          {/* <div className="col-lg-2 col-md-6 col-sm-6">
             <div className="footer-widget">
               <h4>Shop</h4>
               <ul className="footer-links">
@@ -43,8 +46,8 @@ function Footer() {
                 <li><a href="category.html">Sale</a></li>
               </ul>
             </div>
-          </div>
-
+          </div> */}
+{/* 
           <div className="col-lg-2 col-md-6 col-sm-6">
             <div className="footer-widget">
               <h4>Support</h4>
@@ -57,7 +60,7 @@ function Footer() {
                 <li><a href="contact.html">Contact Us</a></li>
               </ul>
             </div>
-          </div>
+          </div> */}
 
           <div className="col-lg-4 col-md-6">
             <div className="footer-widget">
@@ -65,11 +68,11 @@ function Footer() {
               <div className="footer-contact">
                 <div className="contact-item">
                   <i className="bi bi-geo-alt"></i>
-                  <span>123 Fashion Street, New York, NY 10001</span>
+                  <span>Accra, Ghana</span>
                 </div>
                 <div className="contact-item">
                   <i className="bi bi-telephone"></i>
-                  <span>+1 (555) 123-4567</span>
+                  <span>+223 247886217</span>
                 </div>
                 <div className="contact-item">
                   <i className="bi bi-envelope"></i>
@@ -77,7 +80,7 @@ function Footer() {
                 </div>
                 <div className="contact-item">
                   <i className="bi bi-clock"></i>
-                  <span>Monday-Friday: 9am-6pm<br/>Saturday: 10am-4pm Sunday: Closed</span>
+                  <span>Monday-: 9am-6pm<br/>Tuesday-Saturday: 7am-6pm Sunday: Closed</span>
                 </div>
               </div>
 
@@ -123,9 +126,9 @@ function Footer() {
               </div>
 
               <div className="legal-links">
-                <a href="tos.html">Terms</a>
-                <a href="privacy.html">Privacy</a>
-                <a href="tos.html">Cookies</a>
+                <Link to={"/"}>Terms</Link>
+                <Link to={"/"}>Privacy</Link>
+                <Link to={"/"} >Cookies</Link>
               </div>
             </div>
           </div>

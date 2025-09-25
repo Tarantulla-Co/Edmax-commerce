@@ -34,24 +34,24 @@ function Profile() {
           });
           setData(`${res.data.user.name} `);
           console.log("Api Res:", res.data.user);
-          if (res.data.code === 200) {
-            Swal.fire({
-              toast: true,
-              title: "User",
-              text: `Welcome ${res.data.user.name}`,
-              icon: "success",
-              timer: 2000,
-              showConfirmButton: false
-            });
-          } else {
-            Swal.fire({
-              toast: true,
-              title: "Error",
-              text: "Try Again",
-              icon: "error",
-              timer: 2000,
-            });
-          }
+          // if (res.data.code === 200) {
+          //   Swal.fire({
+          //     toast: true,
+          //     title: "User",
+          //     text: `Welcome ${res.data.user.name}`,
+          //     icon: "success",
+          //     timer: 2000,
+          //     showConfirmButton: false
+          //   });
+          // } else {
+          //   Swal.fire({
+          //     toast: true,
+          //     title: "Error",
+          //     text: "Try Again",
+          //     icon: "error",
+          //     timer: 2000,
+          //   });
+          // }
         } catch (err) {
           console.log('Error:',JSON.stringify(err, null, 2));
           
@@ -136,31 +136,31 @@ function Profile() {
                       <span className="badge">3</span>
                     </a>
                   </li>
-                  <li className="nav-item">
+                  {/* <li className="nav-item">
                     <a className="nav-link" data-bs-toggle="tab" href="#wishlist">
                       <i className="bi bi-heart"></i>
                       <span>Wishlist</span>
                       <span className="badge">12</span>
                     </a>
-                  </li>
-                  <li className="nav-item">
+                  </li> */}
+                  {/* <li className="nav-item">
                     <a className="nav-link" data-bs-toggle="tab" href="#wallet">
                       <i className="bi bi-wallet2"></i>
                       <span>Payment Methods</span>
                     </a>
-                  </li>
-                  <li className="nav-item">
+                  </li> */}
+                  {/* <li className="nav-item">
                     <a className="nav-link" data-bs-toggle="tab" href="#reviews">
                       <i className="bi bi-star"></i>
                       <span>My Reviews</span>
                     </a>
-                  </li>
-                  <li className="nav-item">
+                  </li> */}
+                  {/* <li className="nav-item">
                     <a className="nav-link" data-bs-toggle="tab" href="#addresses">
                       <i className="bi bi-geo-alt"></i>
                       <span>Addresses</span>
                     </a>
-                  </li>
+                  </li> */}
                   <li className="nav-item">
                     <a className="nav-link" data-bs-toggle="tab" href="#settings">
                       <i className="bi bi-gear"></i>
@@ -170,10 +170,10 @@ function Profile() {
                 </ul>
 
                 <div className="menu-footer">
-                  <a href="#" className="help-link">
+                  {/* <a href="#" className="help-link">
                     <i className="bi bi-question-circle"></i>
                     <span>Help Center</span>
-                  </a>
+                  </a> */}
                   <a href="#" className="logout-link">
                     <i className="bi bi-box-arrow-right"></i>
                     <span>Log Out</span>
@@ -1056,13 +1056,13 @@ function Profile() {
                       </form>
                     </div>
 
-                    <div className="settings-section danger-zone" data-aos="fade-up" data-aos-delay="300">
+                    {/* <div className="settings-section danger-zone" data-aos="fade-up" data-aos-delay="300">
                       <h3>Delete Account</h3>
                       <div className="danger-zone-content">
                         <p>Once you delete your account, there is no going back. Please be certain.</p>
                         <button type="button" className="btn-danger">Delete Account</button>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 </div>
               </div>
