@@ -1,7 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import { Link } from 'react-router-dom';
 import api from '../api/api';
 import PaystackButton from '../components/UI/PaystackButton';
 import { useCart } from '../contexts/CartContext';
+import toast, { Toaster } from "react-hot-toast";
+
 
 function Cart() {
   const [customerEmail, setCustomerEmail] = useState('')
@@ -33,10 +36,22 @@ function Cart() {
     }
   }
 
-  const removeItem = async (cartId) => {
+  const removeItem = async (cartId,  productName = "Product") => {
     try {
-      await api.delete(`/cart/${cartId}`)
+     const res= await api.delete(`/cart/${cartId}`)
       await refreshCart()
+      if(res.data.code === 200){
+        toast.success(`${productName} removed`,{
+          position: 'top-center',
+          duration: 2000
+        });
+      }else{
+        toast.error(`${productName} Could not be removed`,{
+          position: 'top-center',
+          duration: 2000
+        })
+      }
+      console.log('Delete Res:', res.data.code)
     } catch (e) {
       console.error('Failed to remove item', e)
     }
@@ -52,6 +67,7 @@ function Cart() {
 
   return (
     <>
+    <Toaster />
     <section id="cart" className="cart section">
 
       <div className="container" data-aos="fade-up" data-aos-delay="100">
@@ -198,9 +214,9 @@ function Cart() {
               </div>
 
               <div className="continue-shopping">
-                <a href="#" className="btn btn-link w-100">
+                <Link to={'/product'} className="btn btn-link w-100">
                   <i className="bi bi-arrow-left"></i> Continue Shopping
-                </a>
+                </Link>
               </div>
 
               <div className="payment-methods">

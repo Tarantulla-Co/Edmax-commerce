@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../api/api";
 import { useCart } from "../contexts/CartContext";
-import Swal from "sweetalert2";
+import toast, { Toaster } from "react-hot-toast";
 
 function Product() {
   const [products, setProducts] = useState([]);
@@ -29,55 +29,36 @@ function Product() {
     load();
   }, []);
 
-  const addCart = async (productId, quantity = 1, productName = 'Product') => {
+  const addCart = async (productId, quantity = 1, productName = "Product") => {
     try {
       const success = await addToCart(productId, quantity);
       if (success) {
-        // Show success notification
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          icon: 'success',
-          title: 'Added to Cart!',
-          text: `${productName} has been added to your cart`,
-          showConfirmButton: false,
-          timer: 2000,
-          timerProgressBar: true
+        toast.success(`${productName} added to cart!`, {
+          position: "botton-right",
+          duration: 2000,
         });
       } else {
-        // Show error notification
-        Swal.fire({
-          toast: true,
-          position: 'top-end',
-          icon: 'error',
-          title: 'Failed to Add',
-          text: 'Could not add item to cart. Please try again.',
-          showConfirmButton: false,
-          timer: 2000,
-          timerProgressBar: true
+        toast.error("Could not add item to cart. Please try again.", {
+          position: "bottom-right",
+          duration: 2000,
         });
       }
     } catch (err) {
-      console.log('Error adding to cart:', err);
-      Swal.fire({
-        toast: true,
-        position: 'top-end',
-        icon: 'error',
-        title: 'Error',
-        text: 'Something went wrong. Please try again.',
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true
+      console.error("Error adding to cart:", err);
+      toast.error("Something went wrong. Please try again.", {
+        position: "top-right",
+        duration: 2000,
       });
     }
-  }
+  };
 
   return (
     <>
+      <Toaster />
+
       <section id="best-sellers" className="best-sellers section">
         <div className="container section-title" data-aos="fade-up">
           <h2>Edmax Store </h2>
-          {/* <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p> */}
         </div>
 
         <div className="container" data-aos="fade-up" data-aos-delay="100">
@@ -117,12 +98,6 @@ function Product() {
                           loading="lazy"
                         />
                         <div className="product-actions">
-                          <button className="action-btn wishlist-btn">
-                            <i className="bi bi-heart"></i>
-                          </button>
-                          <button className="action-btn compare-btn">
-                            <i className="bi bi-arrow-left-right"></i>
-                          </button>
                           <button className="action-btn quickview-btn">
                             <i className="bi bi-zoom-in"></i>
                           </button>
@@ -137,10 +112,15 @@ function Product() {
                       <div className="product-info">
                         <div className="product-category">New</div>
                         <h4 className="product-name">
-                          <a href="#" className="font-weight-bold">{name}</a>
-                          <p className="fs-15 text-truncate text-muted" style={{ maxWidth: '700px' }}>
+                          <a href="#" className="font-weight-bold">
+                            {name}
+                          </a>
+                          <p
+                            className="fs-15 text-truncate text-muted"
+                            style={{ maxWidth: "700px" }}
+                          >
                             {description}
-                            </p>
+                          </p>
                         </h4>
                         <div className="product-price text-danger font-weight-bold">
                           {typeof price === "number"

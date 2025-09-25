@@ -273,15 +273,17 @@ export default function Home() {
                 </div>
                 <div className="category-content">
                   <span className="category-tag">Trending Now</span>
-                  <h2>New Summer Collection</h2>
+                  <h2>New Equipment and Tools Collection</h2>
                   <p>
-                    Discover our latest arrivals designed for the modern
-                    lifestyle. Elegant, comfortable, and sustainable fashion for
-                    every occasion.
+                    Upgrade your toolkit with our latest arrivals.
                   </p>
-                  <a href="#" className="btn-shop">
+                  <p>
+                    Shop now and take advantage of exclusive offers on top
+                    brands.
+                  </p>
+                  <Link to={'/product'} className="btn-shop">
                     Explore Collection <i className="bi bi-arrow-right"></i>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -302,11 +304,11 @@ export default function Home() {
                       />
                     </div>
                     <div className="category-content">
-                      <h4>Men's Wear</h4>
-                      <p>242 products</p>
-                      <a href="#" className="card-link">
+                      <h4>Tool 1</h4>
+                      {/* <p>242 products</p> */}
+                      <Link to={'/product'}className="card-link">
                         Shop Now <i className="bi bi-arrow-right"></i>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -325,11 +327,11 @@ export default function Home() {
                       />
                     </div>
                     <div className="category-content">
-                      <h4>Kid's Fashion</h4>
-                      <p>185 products</p>
-                      <a href="#" className="card-link">
+                      <h4>Tool 2</h4>
+                      {/* <p>185 products</p> */}
+                      <Link to={'/product'} className="card-link">
                         Shop Now <i className="bi bi-arrow-right"></i>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -348,11 +350,11 @@ export default function Home() {
                       />
                     </div>
                     <div className="category-content">
-                      <h4>Beauty Products</h4>
-                      <p>127 products</p>
-                      <a href="#" className="card-link">
+                      <h4>Tool 3</h4>
+                      {/* <p>127 products</p> */}
+                      <Link to={'/product'}className="card-link">
                         Shop Now <i className="bi bi-arrow-right"></i>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -371,11 +373,11 @@ export default function Home() {
                       />
                     </div>
                     <div className="category-content">
-                      <h4>Accessories</h4>
-                      <p>308 products</p>
-                      <a href="#" className="card-link">
+                      <h4>Tool 4</h4>
+                      {/* <p>308 products</p> */}
+                      <Link to={'/product'} className="card-link">
                         Shop Now <i className="bi bi-arrow-right"></i>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

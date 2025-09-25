@@ -1,107 +1,128 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import api from "/public/api/api.js";
+// import { useState, useEffect } from "react";
 import { Toast } from "bootstrap";
 import Swal from "sweetalert2";
 import PaystackButton from "../components/UI/PaystackButton";
 function Contact() {
-  // const [data, setData] = useState([]);
-  // const [loader, setLoader] = useState(true);
-  // const fetchData = async () => {
-  //   try {
-  //     const token = localStorage.getItem("token");
-      
-  //     // Check if token exists
-  //     if (!token) {
-  //       Swal.fire({
-  //         toast: true,
-  //         title: "Authentication Required",
-  //         text: "Please login to access this page",
-  //         icon: "warning",
-  //         timer: 3000,
-  //         showConfirmButton: false
-  //       });
-  //       setLoader(false);
-  //       return;
-  //     }
-
-  //     const res = await api.get("/me", {
-  //       headers: {
-  //          Accept: "application/json",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-  //     setData(`Name: ${res.data.user.name} | Email: ${res.data.user.email} | Id: ${res.data.user.id}`);
-  //     console.log("Api Res:", res.data.user.email);
-  //     if (res.data.code === 200) {
-  //       Swal.fire({
-  //         toast: true,
-  //         title: "Success",
-  //         text: res.data.message,
-  //         icon: "success",
-  //         timer: 2000,
-  //         showConfirmButton: false
-  //       });
-  //     } else {
-  //       Swal.fire({
-  //         toast: true,
-  //         title: "Error",
-  //         text: "Try Again",
-  //         icon: "error",
-  //         timer: 2000,
-  //       });
-  //     }
-  //   } catch (err) {
-  //     console.log('Error:',JSON.stringify(err, null, 2));
-      
-  //     // Handle specific error cases
-  //     if (err.response?.status === 401) {
-  //       Swal.fire({
-  //         toast: true,
-  //         title: "Session Expired",
-  //         text: "Please login again",
-  //         icon: "error",
-  //         timer: 3000,
-  //         showConfirmButton: false
-  //       });
-  //       // Clear invalid token
-  //       localStorage.removeItem("token");
-  //     } else {
-  //       Swal.fire({
-  //         toast: true,
-  //         title: "Error",
-  //         text: "Failed to fetch user data",
-  //         icon: "error",
-  //         timer: 3000,
-  //         showConfirmButton: false
-  //       });
-  //     }
-  //   } finally {
-  //     setLoader(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchData();
-  // }, []);
-  // if (loader) {
-  //   return (
-  //     <>
-  //     <div className="d-flex justify-content-center m-3">
-
-  //       <h1 className="text-center fs-5 text-warning spinner-border"></h1>
-  //     </div>
-  //     </>
-  //   );
-  // }
+  
   return (
     <>
-      <div>
-        <h1 className="text-center text-dark">Contact Us</h1>
+    <section id="contact-2" className="contact-2 section">
+
+      <div className="container m-5" data-aos="fade-up" data-aos-delay="100">
+
+        <div className="row gy-4 mb-5">
+          <div className="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+            <div className="contact-info-box">
+              <div className="icon-box">
+                <i className="bi bi-geo-alt"></i>
+              </div>
+              <div className="info-content">
+                <h4>Our Address</h4>
+                <p>1842 Maple Avenue, Portland, Oregon 97204</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+            <div className="contact-info-box">
+              <div className="icon-box">
+                <i className="bi bi-envelope"></i>
+              </div>
+              <div className="info-content">
+                <h4>Email Address</h4>
+                <p>info@example.com</p>
+                <p>contact@example.com</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+            <div className="contact-info-box">
+              <div className="icon-box">
+                <i className="bi bi-headset"></i>
+              </div>
+              <div className="info-content">
+                <h4>Hours of Operation</h4>
+                <p>Monday: 9 AM - 6 PM</p>
+                <p>Tuesday - Saturday: 9 AM - 6 PM</p>
+                <p>Sunday: Closed</p>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
-      {/* <p className="text-center fs-2">{data}</p> */}
-      <PaystackButton />
+      <div className="map-section" data-aos="fade-up" data-aos-delay="200">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d48389.78314118045!2d-74.006138!3d40.710059!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25a22a3bda30d%3A0xb89d1fe6bc499443!2sDowntown%20Conference%20Center!5e0!3m2!1sen!2sus!4v1676961268712!5m2!1sen!2sus" width="100%" height="500" style={{border:0}} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+
+      <div className="container form-container-overlap">
+        <div className="row justify-content-center" data-aos="fade-up" data-aos-delay="300">
+          <div className="col-lg-10">
+            <div className="contact-form-wrapper">
+              <h2 className="text-center mb-4">Get in Touch</h2>
+
+              <form action="forms/contact.php" method="post" className="php-email-form">
+                <div className="row g-3">
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <div className="input-with-icon">
+                        <i className="bi bi-person"></i>
+                        <input type="text" className="form-control" name="name" placeholder="First Name" required/>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-md-6">
+                    <div className="form-group">
+                      <div className="input-with-icon">
+                        <i className="bi bi-envelope"></i>
+                        <input type="email" className="form-control" name="email" placeholder="Email Address" required/>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-md-12">
+                    <div className="form-group">
+                      <div className="input-with-icon">
+                        <i className="bi bi-text-left"></i>
+                        <input type="text" className="form-control" name="subject" placeholder="Subject" required/>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-12">
+                    <div className="form-group">
+                      <div className="input-with-icon">
+                        <i className="bi bi-chat-dots message-icon"></i>
+                        <textarea className="form-control" name="message" placeholder="Write Message..." style={{height: '180px'}} required></textarea>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-12">
+                    <div className="loading">Loading</div>
+                    <div className="error-message"></div>
+                    <div className="sent-message">Your message has been sent. Thank you!</div>
+                  </div>
+
+                  <div className="col-12 text-center">
+                    <button type="submit" className="btn btn-primary btn-submit">SEND MESSAGE</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </section>
+
+     
     </>
   );
 }

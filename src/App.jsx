@@ -1,4 +1,5 @@
 // import { useState, useEffect } from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { Routes, Route, Link, useLocation } from "react-router-dom";
 import About from "./pages/About";
 import Home from "./pages/Home";
