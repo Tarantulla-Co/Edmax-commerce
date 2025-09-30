@@ -266,8 +266,8 @@ export default function Home() {
               >
                 <div className="category-image">
                   <img
-                    src="src/assets/images/products/image-6.jpeg"
-                    alt="Women's Collection"
+                    src="/images/image-6.jpeg"
+                    alt="tools"
                     className="img-fluid"
                   />
                 </div>
