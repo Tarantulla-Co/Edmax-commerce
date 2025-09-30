@@ -188,7 +188,7 @@ function Header() {
           <div className="d-flex py-3 align-items-center justify-content-between">
             {/* Logo */}
             <Link to={"/"} className="logo d-flex align-items-center">
-            <img src="/public/images/EDMAX.png" className="logo2" alt=""/>
+            <img src="/public/images/EDMAX.png" className="logo2" alt="logo"/>
             <span><strong>Edmax Tools And Power Technology</strong></span>
              
 
