@@ -188,8 +188,8 @@ function Header() {
           <div className="d-flex py-3 align-items-center justify-content-between">
             {/* Logo */}
             <Link to={"/"} className="logo d-flex align-items-center">
-            <img src="src/assets/EDMAX.png" className="logo2" alt=""/>
-              <h1 className="sitename fs-2">edmax</h1>
+            <img src="/images/EDMAX web3-10.png" className="logo2" alt=""/>
+             
 
             </Link>
             {/* Search */}
@@ -250,6 +250,14 @@ function Header() {
                     >
                       <i className="bi bi-cart3"></i>
                       <span> My Cart</span>
+                    </Link>
+
+                     <Link
+                      className="dropdown-item d-flex align-items-center"
+                      to={'/admin'}
+                    >
+                      <i className="bi bi-person"></i>
+                      <span>Admin</span>
                     </Link>
                     {/* <a
                       className="dropdown-item d-flex align-items-center"
