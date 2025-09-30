@@ -298,7 +298,7 @@ export default function Home() {
                   >
                     <div className="category-image">
                       <img
-                        src="src/assets/images/products/image-8.jpeg"
+                        src="/images/image-8.jpeg"
                         alt="Men's Fashion"
                         className="img-fluid"
                       />
@@ -321,7 +321,7 @@ export default function Home() {
                   >
                     <div className="category-image">
                       <img
-                        src="src/assets/images/products/image-19.jpeg"
+                        src="/images/image-19.jpeg"
                         alt="Kid's Fashion"
                         className="img-fluid"
                       />
@@ -344,7 +344,7 @@ export default function Home() {
                   >
                     <div className="category-image">
                       <img
-                        src="src/assets/images/products/imqge-9.jpeg"
+                        src="/images/imqge-9.jpeg"
                         alt="Cosmetics"
                         className="img-fluid"
                       />
@@ -367,7 +367,7 @@ export default function Home() {
                   >
                     <div className="category-image">
                       <img
-                        src="src/assets/images/products/image-7.jpeg"
+                        src="/images/image-7.jpeg"
                         alt="Accessories"
                         className="img-fluid"
                       />
