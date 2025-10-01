@@ -4,6 +4,7 @@ import api from '../api/api';
 import PaystackButton from '../components/UI/PaystackButton';
 import { useCart } from '../contexts/CartContext';
 import toast, { Toaster } from "react-hot-toast";
+import PageTitle from './PageTitle';
 
 
 function Cart() {
@@ -67,6 +68,7 @@ function Cart() {
 
   return (
     <>
+    <PageTitle name='Cart' />
     <Toaster />
     <section id="cart" className="cart section">
 

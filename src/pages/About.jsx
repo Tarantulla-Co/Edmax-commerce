@@ -1,33 +1,16 @@
 import React from 'react'
 import Swal from 'sweetalert2';
 import Footer from '../components/UI/Footer';
+import PageTitle from './PageTitle';
 
 export default function About() {
-    const msg = ()=>{
-    Swal.fire({
-    title: 'You Clicked Me',
-    icon:'warning',
-    text: 'Bro you clicked me',
-    timer:1000,
-    timerProgressBar: true
-    })
-    }
+    
   return (
     <>
     
   <main className="main">
 
-    <div className="page-title light-background">
-      <div className="container d-lg-flex justify-content-between align-items-center">
-        <h1 className="mb-2 mb-lg-0">About</h1>
-        <nav className="breadcrumbs">
-          <ol>
-            <li><a href="index.html">Home</a></li>
-            <li className="current">About</li>
-          </ol>
-        </nav>
-      </div>
-    </div>
+   <PageTitle name='About'/>
 
     
     <section id="about-2" className="about-2 section">
