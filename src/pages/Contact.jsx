@@ -3,10 +3,12 @@ import React from "react";
 import { Toast } from "bootstrap";
 import Swal from "sweetalert2";
 import PaystackButton from "../components/UI/PaystackButton";
+import PageTitle from "./PageTitle";
 function Contact() {
   
   return (
     <>
+    <PageTitle name="Contact" />
     <section id="contact-2" className="contact-2 section">
 
       <div className="container m-5" data-aos="fade-up" data-aos-delay="100">

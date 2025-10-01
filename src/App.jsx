@@ -19,6 +19,7 @@ import View from "./pages/admin/CRUD_Table/View";
 import Create from "./pages/admin/CRUD_Table/Create";
 import Edit from "./pages/admin/CRUD_Table/Edit";
 import { CartProvider } from "./contexts/CartContext";
+import NoteFound from './pages/NoteFound';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -36,6 +37,7 @@ function App() {
       {/* Only show Header if not on admin routes */}
       {!isAdminRoute && <Header />}
       <Routes>
+        <Route path='*' element={<NoteFound />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />

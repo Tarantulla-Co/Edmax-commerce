@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import api from "../api/api";
 import { useCart } from "../contexts/CartContext";
 import toast, { Toaster } from "react-hot-toast";
+import PageTitle from "./PageTitle";
 
 function Product() {
   const [products, setProducts] = useState([]);
@@ -54,6 +55,7 @@ function Product() {
 
   return (
     <>
+    <PageTitle  name="Product"/>
       <Toaster />
 
       <section id="best-sellers" className="best-sellers section">
